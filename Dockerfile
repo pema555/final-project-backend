@@ -1,34 +1,23 @@
-# Step 1: Build the React app
-FROM node:20 AS builder
+# Use official Node.js LTS image as base
+FROM node:18-alpine
 
-# Set working directory
+# Set working directory inside the container
 WORKDIR /app
 
-# Copy package.json and install deps
+# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
+
+# Install dependencies (only production dependencies if you want)
 RUN npm install
 
-# Copy rest of the source code
+# Copy all project files into the container
 COPY . .
 
-# Build the production version
+# Build the TypeScript code
 RUN npm run build
 
+# Expose the port your app listens on
+EXPOSE 3000
 
-# Step 2: Serve the build using a lightweight web server
-FROM nginx:alpine
-
-# Remove default nginx index page
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy built React app from builder
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy custom nginx config (optional)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+# Command to run your app
+CMD ["node", "dist/server.js"]
