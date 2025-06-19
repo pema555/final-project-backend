@@ -4,7 +4,7 @@ dotenv.config()
 
 import cors from 'cors'
 
-// import eventRoutes from './routes/eventRoutes'
+import eventRoutes from './routes/eventRoutes'
 import authRoutes from './routes/authRoutes'
 
 
@@ -31,7 +31,7 @@ app.use(
 // )
 
 app.use('/api/v1/auth', authRoutes)
-// app.use('/api/v1/events', eventRoutes)
+app.use('/api/v1/events', eventRoutes)
 
 // 🏠 Root route
 app.get('/', (req, res) => {
