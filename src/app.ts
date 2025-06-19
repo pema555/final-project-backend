@@ -1,17 +1,18 @@
 import express from 'express'
 import dotenv from 'dotenv'
+dotenv.config()
+
 import cors from 'cors'
 
 // import eventRoutes from './routes/eventRoutes'
 import authRoutes from './routes/authRoutes'
 
-dotenv.config()
 
 const app = express()
 app.use(express.json())
 app.use(
   cors({
-    origin: 'http://localhost:5173', // frontend origin
+    origin: '*', // frontend origin
     credentials: true,
   })
 )
